@@ -228,3 +228,19 @@ button:disabled {
   color: var(--check);
   font-size: var(--fs-small);
 }
+
+.menu-label {
+  margin: 12px 8px 4px;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.app-menu-link {
+  display: flex;
+  align-items: center;
+  min-height: var(--touch);
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  text-decoration: none;
+}

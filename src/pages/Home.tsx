@@ -8,7 +8,7 @@ import { continueTarget, lessonsDoneCount } from '../lib/home';
 import '../styles/home.css';
 
 export default function Home() {
-  const { code, progress, switchStudent } = useStudent();
+  const { code, progress, switchStudent, updateProgress } = useStudent();
   if (!code || !progress) return null;
 
   const next = continueTarget(progress, LESSONS);
@@ -22,7 +22,12 @@ export default function Home() {
         <span className="code-chip" aria-label={`Kode siswa ${code}`}>
           {code}
         </span>
-        <AppMenu code={code} onSwitchStudent={switchStudent} />
+        <AppMenu
+          code={code}
+          settings={progress.settings}
+          onSettings={(settings) => updateProgress((p) => ({ ...p, settings }))}
+          onSwitchStudent={switchStudent}
+        />
       </header>
 
       <section className="continue" aria-labelledby="continue-title">

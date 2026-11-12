@@ -155,6 +155,12 @@ function gradeProbability(problem: Problem, raw: Fraction, requireSimplest: bool
         : 'Ingat P(A) = n(A) / n(S). Penyebutnya adalah banyak SEMUA kemungkinan.',
     );
   }
+  // P = 0 atau P = 1: 0/6 dan 6/6 sudah bernilai bilangan bulat; siswa tidak perlu menulis 0/1 atau 1/1.
+  if (requireSimplest && (value.num === 0 || value.num === value.den)) {
+    return value.num === 0
+      ? ok(`Tepat! ${format(value)} = 0. Peluang 0 berarti tidak mungkin terjadi.`)
+      : ok(`Tepat! ${format(value)} = 1. Peluang 1 berarti pasti terjadi.`);
+  }
   if (requireSimplest && !isSimplest(value)) {
     return fail('P_NOT_SIMPLE', `Nilainya sudah benar! Bisakah ${format(value)} disederhanakan?`);
   }

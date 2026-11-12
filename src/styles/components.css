@@ -1,0 +1,339 @@
+/* Komponen bersama. Warna hanya untuk makna (EL03): terpilih, diketahui, ditanya, benar, perlu dicek. */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+h2 {
+  font-size: calc(19px * var(--font-scale));
+  margin: 0 0 12px;
+}
+
+.card > * + * {
+  margin-top: 12px;
+}
+
+.card > h2 + p,
+.card > p + p {
+  margin-top: 4px;
+}
+
+.card p {
+  margin-bottom: 0;
+}
+
+/* ── Papan ruang sampel (F2) ── */
+.board-counts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.count-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-chip.is-selected {
+  border-color: var(--selected-line);
+  background: var(--selected-bg);
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 8px;
+}
+
+.board-item {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: var(--touch-outcome);
+  padding: 6px 2px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+button.board-item {
+  cursor: pointer;
+}
+
+/* Papan yang sudah selesai tetap terbaca jelas (bukan pudar seperti tombol nonaktif biasa). */
+button.board-item:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.board-item.is-selected {
+  border-color: var(--selected-line);
+  background: var(--selected-bg);
+}
+
+.board-check {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.oc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.1;
+}
+
+.oc-glyph {
+  font-size: calc(34px * var(--font-scale));
+  line-height: 1;
+}
+
+.oc-label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.oc-disc {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--text);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.oc-disc-sm {
+  width: 24px;
+  height: 24px;
+  font-size: 13px;
+}
+
+.oc-pair {
+  display: flex;
+  gap: 2px;
+}
+
+.oc-dot,
+.oc-wedge {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--text);
+  border-radius: 50%;
+}
+
+.oc-wedge {
+  border-radius: 26px 0 0 0;
+}
+
+.oc-card-face {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 44px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* ── Umpan balik (F6) ── */
+.feedback-slot:empty {
+  display: none;
+}
+
+.feedback {
+  padding: 12px;
+  border-left: 4px solid;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.feedback p {
+  margin: 4px 0 0;
+}
+
+.feedback.is-ok {
+  border-color: var(--correct);
+}
+
+.feedback.is-ok strong {
+  color: var(--correct);
+}
+
+.feedback.is-check {
+  border-color: var(--check);
+}
+
+.feedback.is-check strong {
+  color: var(--check);
+}
+
+/* ── Isian ── */
+.number-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--fs-title);
+  font-weight: 700;
+}
+
+.number-field input,
+.fraction-input input,
+.blank {
+  width: 72px;
+  height: var(--btn-height);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-number);
+  font-weight: 700;
+  text-align: center;
+}
+
+.fraction-input {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fraction-bar {
+  display: block;
+  width: 100%;
+  min-width: 48px;
+  height: 0;
+  border-top: 3px solid var(--text);
+}
+
+.fraction-view {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.p-row,
+.formula {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: var(--fs-title);
+  font-weight: 700;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+/* ── Kartu bertahap (F1) ── */
+.deck-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.deck-progress {
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.deck-progress span {
+  display: block;
+  height: 100%;
+  background: var(--text);
+  transition: width var(--motion-fast) ease-out;
+}
+
+.deck-card {
+  margin-bottom: var(--gap);
+}
+
+.deck-nav {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8px;
+}
+
+.deck-hint {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.choices {
+  display: grid;
+  gap: 8px;
+}
+
+.choice {
+  min-height: var(--touch);
+  padding: 8px 12px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+}
+
+.choice.is-picked {
+  border-color: var(--selected-line);
+  background: var(--selected-bg);
+}
+
+.seg-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.app-menu-panel .seg button {
+  padding: 0 4px;
+  font-size: var(--fs-small);
+  overflow-wrap: anywhere;
+}
+
+.btn-link {
+  min-height: var(--touch);
+}
+
+.code-input-sm {
+  font-size: var(--fs-body);
+  letter-spacing: normal;
+  text-transform: none;
+}

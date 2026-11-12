@@ -132,9 +132,18 @@ describe('⑤ periksa', () => {
     expect(gradeStep(genap, { step: 'check', value: frac(1, 2) }).ok).toBe(true);
     expect(gradeStep(biru, { step: 'check', value: frac(2, 5) }).ok).toBe(true);
   });
-  it('kejadian mustahil: 0/1 benar, 0/6 belum sederhana', () => {
+  it('kejadian mustahil: 0/1 dan 0/6 sama-sama benar (nilainya 0, kotak pecahan tidak bisa diisi "0" saja)', () => {
     expect(gradeStep(mustahil, { step: 'check', value: frac(0, 1) }).ok).toBe(true);
-    expect(gradeStep(mustahil, { step: 'check', value: frac(0, 6) }).code).toBe('P_NOT_SIMPLE');
+    const r = gradeStep(mustahil, { step: 'check', value: frac(0, 6) });
+    expect(r.ok).toBe(true);
+    expect(r.message).toContain('tidak mungkin');
+  });
+
+  it('kejadian pasti: 6/6 diterima sebagai 1', () => {
+    const pasti = { ...genap, eventIds: genap.sampleSpace.map((o) => o.id), answer: frac(1, 1) };
+    const r = gradeStep(pasti, { step: 'check', value: frac(6, 6) });
+    expect(r.ok).toBe(true);
+    expect(r.message).toContain('pasti');
   });
 });
 

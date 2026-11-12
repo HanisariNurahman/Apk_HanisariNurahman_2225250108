@@ -1,11 +1,14 @@
 // Halaman Simulasi koin & dadu (F7) [GL01, DS01].
-// TODO(M3/M5): kunci tombol 10×/50× sampai subbab Peluang selesai (IL04); log refleksi (F9).
+// Lempar 10×/50× terbuka setelah subbab Peluang selesai (IL04). Jawaban refleksi disimpan di HP (F9).
 
 import { lazy, Suspense, useState } from 'react';
 import BarChart2D from '../components/BarChart2D';
 import PageHeader from '../components/PageHeader';
+import { useStudent } from '../components/StudentProvider';
+import { repeatedTrialsUnlocked } from '../lib/home';
 import { coin, die } from '../lib/sampleSpace';
 import { addCounts, comparisonText, formatDecimal, rollMany, relativeText, tally, total } from '../lib/simulation';
+import { saveReflection } from '../lib/storage';
 import { hasWebGL } from '../lib/webgl';
 import '../styles/simulation.css';
 
@@ -22,6 +25,10 @@ const TRIALS = [1, 10, 50] as const;
 
 
 export default function Simulation() {
+  const { code, progress } = useStudent();
+  const unlocked = progress ? repeatedTrialsUnlocked(progress) : false;
+  const [reflection, setReflection] = useState('');
+  const [reflectionSaved, setReflectionSaved] = useState(false);
   const [exp, setExp] = useState<ExpKey>('die');
   const { labels, theoLabel, glyphs } = EXPERIMENTS[exp];
   const k = labels.length;
@@ -87,11 +94,18 @@ export default function Simulation() {
 
       <div className="sim-actions">
         {TRIALS.map((t) => (
-          <button key={t} type="button" className={t === 1 ? 'btn-primary' : 'btn-secondary'} onClick={() => roll(t)}>
+          <button
+            key={t}
+            type="button"
+            className={t === 1 ? 'btn-primary' : 'btn-secondary'}
+            onClick={() => roll(t)}
+            disabled={t > 1 && !unlocked}
+          >
             Lempar {t}×
           </button>
         ))}
       </div>
+      {!unlocked && <p className="muted">Lempar 10× dan 50× terbuka setelah subbab Peluang selesai.</p>}
 
       {use3D ? (
         <Suspense fallback={<div className="chart-loading muted">Memuat grafik…</div>}>
@@ -135,11 +149,43 @@ export default function Simulation() {
       </table>
 
       {n >= 10 && (
-        <div className="card sim-reflect">
-          <p>
-            💭 Mengapa frekuensi relatifnya tidak selalu tepat <strong>{theoLabel}</strong>? Apa yang terjadi jika
+        <div className="card sim-reflect stack">
+          <label htmlFor="sim-refl">
+            Mengapa frekuensi relatifnya tidak selalu tepat <strong>{theoLabel}</strong>? Apa yang terjadi jika
             lemparannya ditambah?
-          </p>
+          </label>
+          <textarea
+            id="sim-refl"
+            rows={2}
+            maxLength={300}
+            value={reflection}
+            disabled={reflectionSaved}
+            onChange={(e) => setReflection(e.target.value)}
+          />
+          {!reflectionSaved && (
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={!reflection.trim()}
+              onClick={() => {
+                if (code)
+                  saveReflection(code, {
+                    source: `simulasi-${exp}`,
+                    answers: { lemparan: String(n) },
+                    text: reflection.trim(),
+                    at: new Date().toISOString(),
+                  });
+                setReflectionSaved(true);
+              }}
+            >
+              Simpan jawaban
+            </button>
+          )}
+          {reflectionSaved && (
+            <p className="muted" role="status">
+              ✓ Jawabanmu tersimpan. Coba lempar lebih banyak, lalu lihat lagi grafiknya.
+            </p>
+          )}
         </div>
       )}
 

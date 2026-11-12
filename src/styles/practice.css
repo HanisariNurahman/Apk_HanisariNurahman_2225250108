@@ -1,0 +1,251 @@
+/* Latihan (F3–F6, F9, F10) */
+.level {
+  margin-top: var(--gap-lg);
+}
+
+.level h2 {
+  margin-bottom: 4px;
+}
+
+.problem-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.problem-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.problem-item.is-locked {
+  opacity: 0.55;
+}
+
+.problem-id {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.problem-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Stepper ①–⑤ */
+.stepper {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.stepper li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 3px solid var(--border);
+  color: var(--muted);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+
+.stepper li.is-active {
+  border-color: var(--text);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.stepper li.is-done {
+  color: var(--text);
+}
+
+.stepper-name {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.done-summary {
+  margin: var(--gap) 0;
+  font-size: var(--fs-small);
+}
+
+.done-summary ul {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-weight: 600;
+}
+
+.done-summary details {
+  margin-top: 8px;
+}
+
+.done-summary summary {
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Penanda soal cerita (F4) */
+.story-sentence {
+  margin: 0 0 8px;
+  line-height: 2.4;
+}
+
+.chunk {
+  padding: 6px 2px;
+  border-bottom: 2px dashed var(--muted);
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chunk[aria-disabled='true'] {
+  cursor: default;
+}
+
+.mark-known {
+  background: var(--known-bg);
+  border-bottom: 2px solid var(--known-line);
+}
+
+.mark-asked {
+  background: var(--asked-bg);
+  border-bottom: 2px solid var(--asked-line);
+}
+
+.chunk-static.mark-none {
+  background: none;
+  border: 0;
+}
+
+.chunk-tag {
+  margin-left: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mark-summary {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.mark-summary > div {
+  padding: 6px 10px;
+  border-left: 4px solid;
+  border-radius: 6px;
+}
+
+.mark-summary .mark-known {
+  border-color: var(--known-line);
+}
+
+.mark-summary .mark-asked {
+  border-color: var(--asked-line);
+}
+
+.mark-summary dt {
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+.mark-summary dd {
+  margin: 0;
+}
+
+.faded-note {
+  color: var(--muted);
+}
+
+/* Petunjuk bertingkat (F5) */
+.hints {
+  display: grid;
+  gap: 8px;
+}
+
+.hint-btn {
+  justify-self: start;
+  padding-left: 0;
+}
+
+.hint-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.hint-list li {
+  padding: 8px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.hint-list p {
+  margin: 2px 0 0;
+}
+
+.btn-discuss {
+  min-height: var(--touch);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.discussion ol {
+  margin: 8px 0 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+/* Refleksi (F9) */
+.reflection {
+  margin: var(--gap) 0;
+}
+
+.reflection-sentence {
+  line-height: 2.4;
+}
+
+.blank {
+  width: 56px;
+  height: 44px;
+  margin: 0 4px;
+  font-size: var(--fs-body);
+}
+
+.similar {
+  margin: var(--gap) 0;
+}

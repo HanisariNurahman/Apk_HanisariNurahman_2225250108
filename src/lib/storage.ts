@@ -112,3 +112,61 @@ export function appendLog(log: AttemptLog): boolean {
   logs.push(log);
   return writeJSON(keys.logs(log.studentCode), logs);
 }
+
+/** Kode kelas dari guru, mis. "8A". Huruf/angka/tanda hubung, 1–16 karakter (sama dengan validasi backend). */
+export function normalizeClassCode(raw: string): string | null {
+  const code = raw.trim().toUpperCase().replace(/\s+/g, '');
+  return /^[A-Z0-9-]{1,16}$/.test(code) ? code : null;
+}
+
+export function getClassCode(): string | null {
+  const v = readJSON<unknown>(keys.classCode, null);
+  return typeof v === 'string' ? normalizeClassCode(v) : null;
+}
+
+export function setClassCode(raw: string): string | null {
+  const code = normalizeClassCode(raw);
+  if (code) writeJSON(keys.classCode, code);
+  return code;
+}
+
+/** Semua kode siswa yang punya log di HP ini (HP bisa dipakai bergantian). */
+export function listStudentCodes(): string[] {
+  const out = new Set<string>();
+  try {
+    const s = globalThis.localStorage;
+    if (!s) return [];
+    const prefix = keys.logs('');
+    for (let i = 0; i < s.length; i++) {
+      const k = s.key(i);
+      if (k?.startsWith(prefix)) {
+        const code = normalizeStudentCode(k.slice(prefix.length));
+        if (code) out.add(code);
+      }
+    }
+  } catch {
+    /* penyimpanan tidak tersedia */
+  }
+  return [...out].sort();
+}
+
+/** Jawaban refleksi (F9). Disimpan di HP saja; tidak dikirim ke server (skema log tetap). */
+export interface ReflectionEntry {
+  source: string; // id soal, atau "simulasi"
+  answers: Record<string, string>;
+  text: string;
+  at: string;
+}
+
+export function saveReflection(studentCode: string, entry: ReflectionEntry): boolean {
+  const key = `peluangku:reflections:${studentCode}`;
+  const list = readJSON<unknown>(key, []);
+  const arr = Array.isArray(list) ? (list as ReflectionEntry[]) : [];
+  arr.push(entry);
+  return writeJSON(key, arr);
+}
+
+export function loadReflections(studentCode: string): ReflectionEntry[] {
+  const v = readJSON<unknown>(`peluangku:reflections:${studentCode}`, []);
+  return Array.isArray(v) ? (v as ReflectionEntry[]) : [];
+}

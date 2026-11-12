@@ -5,7 +5,7 @@
 // - Fitur belajar tidak bergantung pada modul ini: tanpa VITE_API_URL, sinkronisasi mati.
 
 import type { AttemptLog } from '../types';
-import { keys, loadLogs, readJSON, writeJSON } from './storage';
+import { keys, listStudentCodes, loadLogs, readJSON, writeJSON } from './storage';
 
 export const MAX_BATCH = 500;
 
@@ -96,4 +96,22 @@ export function configFromEnv(): SyncConfig | null {
   const classKey = readJSON<unknown>(keys.classKey, null);
   if (!apiUrl || typeof classKey !== 'string' || !classKey) return null;
   return { apiUrl, classKey };
+}
+
+/** Kirim log semua siswa yang pernah memakai HP ini. null bila sinkronisasi mati. */
+export async function syncAll(cfg: SyncConfig | null = configFromEnv()): Promise<SyncResult | null> {
+  if (!cfg) return null;
+  const total: SyncResult = { ok: true, sent: 0, pending: 0 };
+  for (const code of listStudentCodes()) {
+    const r = await syncStudent(code, cfg);
+    total.ok &&= r.ok;
+    total.sent += r.sent;
+    total.pending += r.pending;
+  }
+  return total;
+}
+
+/** Dipanggil saat aplikasi dibuka, saat kembali online, dan setelah soal selesai. Tidak pernah mengganggu siswa. */
+export function requestSync(): void {
+  void syncAll().catch(() => undefined);
 }

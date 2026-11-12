@@ -1,0 +1,8 @@
+/* Area guru (F11) */
+.teacher .card h2 {
+  margin-bottom: 8px;
+}
+
+.teacher .card > .btn-secondary {
+  margin-top: var(--gap);
+}

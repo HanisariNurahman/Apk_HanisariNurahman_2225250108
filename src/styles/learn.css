@@ -1,0 +1,149 @@
+/* Belajar (F1) dan Ingat Pecahan (F8) */
+.lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px var(--gutter);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.lesson-item.is-locked {
+  opacity: 0.6;
+}
+
+.lesson-num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--text);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.lesson-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compare th,
+.compare td {
+  padding: 8px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare .is-selected-col {
+  background: var(--selected-bg);
+}
+
+.worked,
+.given {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.worked li {
+  padding: 8px 12px;
+  border-left: 3px solid var(--border);
+}
+
+.worked li:last-child {
+  border-left-color: var(--text);
+}
+
+.given li {
+  color: var(--muted);
+}
+
+/* Garis peluang 0 — ½ — 1 */
+.range-line {
+  position: relative;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0 0 0 28px;
+  display: grid;
+  gap: 16px;
+}
+
+.range-line::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  bottom: 6px;
+  border-left: 3px solid var(--text);
+}
+
+.range-pt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.range-pt::before {
+  content: '';
+  position: absolute;
+  left: -25px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+/* Batang pecahan (F8) */
+.fbar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fbar {
+  flex: 1;
+  display: flex;
+  height: 40px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fbar-part {
+  flex: 1;
+  border-right: 2px solid var(--text);
+}
+
+.fbar-part:last-child {
+  border-right: 0;
+}
+
+.fbar-part.is-filled {
+  background: repeating-linear-gradient(45deg, var(--text) 0 2px, transparent 2px 7px);
+}
+
+.inline-deck {
+  border-style: dashed;
+}
