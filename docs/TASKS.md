@@ -81,7 +81,7 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - [x] Manifest, ikon PNG 192/512/maskable, service worker; uji offline (build produksi, mode pesawat)
 - [x] Pengaturan ukuran huruf dan mode gelap (menu ⋮)
 - [ ] Daftar periksa DESIGN §7 (sudah: 360 px tanpa scroll, warna + teks/ikon, tanpa jawaban langsung, reduced-motion; belum: ukur kontras WCAG AA)
-- [ ] Deploy (GitHub Pages / Netlify); uji "Tambahkan ke Layar Utama"
+- [ ] Deploy GitHub Pages (`npm run deploy` → branch `gh-pages`; sumber Pages harus `gh-pages` / root); uji "Tambahkan ke Layar Utama" di HP
 
 ## M9 — Validasi dan revisi (ADDIE Development → Implementation)
 - [ ] Validasi ahli materi dan ahli media → catat revisi di TRACEABILITY.md §4
