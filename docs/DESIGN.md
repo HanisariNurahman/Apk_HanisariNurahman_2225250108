@@ -168,6 +168,7 @@ Nada umpan balik: tidak menghakimi, menyebut bagian yang keliru, dan memberi ala
 - Warna: batang `--primary`, bidang teoretik warna teks netral transparan. Tidak ada warna makna baru.
 - Label nama hasil dan frekuensi menempel pada batang (kedekatan), bukan di legenda terpisah.
 - Interaksi: putar dengan satu jari, sudut dibatasi ±60° horizontal; tanpa geser (pan), tanpa rotasi otomatis; tombol Reset.
+- Ketuk batang (atau baris tabel) → batang dan baris memakai warna `--selected` + tanda ✓, dan kotak detail di atas batang menampilkan frekuensi relatif ("10/50 ≈ 0,20") serta perbandingannya dengan teori ("lebih dari 1/6"). Angka batang lain disembunyikan selama ada pilihan (satu fokus). Ketuk lagi untuk menutup. Geser > 8 px dihitung memutar, bukan memilih.
 - Animasi tinggi batang 300 ms ease-out; langsung berubah bila `prefers-reduced-motion`.
 - Tabel di bawah grafik tetap ada sebagai sumber data yang dapat dibaca pembaca layar.
 - Tanpa WebGL → grafik 2D (`BarChart2D`) dengan garis putus-putus untuk peluang teoretik.

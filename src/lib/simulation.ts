@@ -59,3 +59,34 @@ export function relativeFrequencies(counts: number[]): number[] {
 export function chartScale(relFreq: number[], theoretical: number): number {
   return Math.max(theoretical * 2, ...relFreq, Number.EPSILON);
 }
+
+/** Perbandingan frekuensi relatif count/n dengan peluang teoretik 1/k (tanpa desimal agar tepat). */
+export type Comparison = 'more' | 'equal' | 'less';
+
+export function compareToTheoretical(count: number, n: number, k: number): Comparison | null {
+  if (n === 0) return null;
+  const a = count * k;
+  return a > n ? 'more' : a < n ? 'less' : 'equal';
+}
+
+const COMPARISON_TEXT: Record<Comparison, string> = {
+  more: 'lebih dari',
+  equal: 'sama dengan',
+  less: 'kurang dari',
+};
+
+/** Teks pendek untuk detail batang, mis. "lebih dari 1/6". Kosong bila belum ada lemparan. */
+export function comparisonText(count: number, n: number, k: number): string {
+  const c = compareToTheoretical(count, n, k);
+  return c ? `${COMPARISON_TEXT[c]} 1/${k}` : '';
+}
+
+/** Dua angka di belakang koma dengan koma desimal, mis. 0,30. */
+export function formatDecimal(x: number): string {
+  return x.toFixed(2).replace('.', ',');
+}
+
+/** Frekuensi relatif sebagai pecahan dan desimal, mis. "3/10 ≈ 0,30". */
+export function relativeText(count: number, n: number): string {
+  return n === 0 ? '–' : `${count}/${n} ≈ ${formatDecimal(count / n)}`;
+}

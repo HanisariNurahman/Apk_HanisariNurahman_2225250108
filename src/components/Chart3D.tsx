@@ -2,6 +2,7 @@
 // Prinsip beban kognitif (DESIGN.md §1):
 // - Setiap batang = satu titik sampel; bidang transparan = peluang teoretik. Tidak ada objek hiasan.
 // - Label nama hasil & frekuensi menempel pada batangnya (kedekatan, EL02).
+// - Ketuk batang → warna "terpilih" + detail frekuensi relatif tepat di atas batang itu.
 // - Tidak ada rotasi otomatis; render hanya saat ada perubahan (hemat baterai).
 // - Animasi tinggi batang ≤ 300 ms, mati bila prefers-reduced-motion (EL03).
 // - Modul ini di-lazy-load: three.js hanya diunduh saat halaman simulasi dibuka.
@@ -10,7 +11,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-import { chartScale, relativeFrequencies, total } from '../lib/simulation';
+import { chartScale, comparisonText, relativeFrequencies, relativeText, total } from '../lib/simulation';
 import { prefersReducedMotion } from '../lib/webgl';
 
 export interface Chart3DProps {
@@ -20,12 +21,17 @@ export interface Chart3DProps {
   theoretical: number;
   /** Teks pecahan peluang teoretik, mis. "1/6". */
   theoreticalLabel: string;
+  /** Indeks batang yang dipilih, atau null. */
+  selected: number | null;
+  /** Dipanggil saat siswa mengetuk batang (indeks) atau area kosong (null). */
+  onSelect: (index: number | null) => void;
   /** Dipanggil jika WebGL gagal dibuat → induk menampilkan grafik 2D. */
   onUnavailable?: () => void;
 }
 
 interface SceneApi {
   update(counts: number[]): void;
+  setSelected(index: number | null): void;
   resetView(): void;
   dispose(): void;
 }
@@ -35,6 +41,8 @@ const BAR_W = 0.7;
 const GAP = 0.4;
 const ANIM_MS = 300;
 const MIN_SCALE = 0.0001;
+/** Gerakan jari ≤ 8 px dihitung sebagai ketukan, bukan putaran. */
+const TAP_SLOP = 8;
 const VIEW_DIR = new THREE.Vector3(0, 0.55, 1).normalize();
 
 function cssColor(name: string, fallback: string): THREE.Color {
@@ -54,6 +62,7 @@ function createScene(
   labels: string[],
   theoretical: number,
   theoreticalLabel: string,
+  onSelect: (index: number | null) => void,
 ): SceneApi {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -83,6 +92,12 @@ function createScene(
 
   // Batang + label nama (di depan alas) + label frekuensi (di atas batang)
   const barMat = new THREE.MeshStandardMaterial({ roughness: 0.55 });
+  const selMat = new THREE.MeshStandardMaterial({ roughness: 0.55 });
+  // Area ketuk tak terlihat setinggi grafik: batang pendek / nol tetap mudah diketuk.
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+  const hitGeo = new THREE.BoxGeometry(BAR_W + GAP, MAX_H, BAR_W + GAP);
+  hitGeo.translate(0, MAX_H / 2, 0);
+  const hits: THREE.Mesh[] = [];
   const bars: THREE.Mesh[] = [];
   const values: { el: HTMLDivElement; obj: CSS2DObject }[] = [];
   labels.forEach((label, i) => {
@@ -95,12 +110,20 @@ function createScene(
     scene.add(bar);
     bars.push(bar);
 
+    const hit = new THREE.Mesh(hitGeo, hitMat);
+    hit.position.x = x;
+    hit.userData.index = i;
+    scene.add(hit);
+    hits.push(hit);
+
     const name = makeLabel('chart3d-label', label);
     name.obj.position.set(x, 0, BAR_W / 2 + 0.45);
     scene.add(name.obj);
 
     const value = makeLabel('chart3d-value');
     value.obj.position.set(x, 0.25, 0);
+    // Batang di tepi: detail dibentangkan ke arah dalam agar tidak terpotong di layar 360 px.
+    value.obj.center.set(i < (n - 1) / 2 ? 0.25 : i > (n - 1) / 2 ? 0.75 : 0.5, 1);
     scene.add(value.obj);
     values.push(value);
   });
@@ -123,6 +146,7 @@ function createScene(
 
   function applyColors() {
     barMat.color.copy(cssColor('--primary', '#2457c5'));
+    selMat.color.copy(cssColor('--selected-line', '#9a7a00'));
     floorMat.color.copy(cssColor('--border', '#dfe2e7'));
     const line = cssColor('--text', '#1c1f24');
     theoMat.color.copy(line);
@@ -150,6 +174,28 @@ function createScene(
   });
   controls.addEventListener('change', render);
 
+  // Ketuk (bukan geser) → pilih batang lewat raycast.
+  const raycaster = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  let down: { x: number; y: number; id: number } | null = null;
+  const surface = labelRenderer.domElement;
+  const onDown = (e: PointerEvent) => {
+    if (e.isPrimary) down = { x: e.clientX, y: e.clientY, id: e.pointerId };
+  };
+  const onUp = (e: PointerEvent) => {
+    const d = down;
+    down = null;
+    if (!d || d.id !== e.pointerId) return;
+    if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > TAP_SLOP) return;
+    const rect = surface.getBoundingClientRect();
+    ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+    raycaster.setFromCamera(ndc, camera);
+    const [first] = raycaster.intersectObjects(hits, false);
+    onSelect(first ? (first.object.userData.index as number) : null);
+  };
+  surface.addEventListener('pointerdown', onDown);
+  surface.addEventListener('pointerup', onUp);
+
   function fitDistance(): number {
     const vHalf = THREE.MathUtils.degToRad(camera.fov / 2);
     const hTan = Math.tan(vHalf) * camera.aspect;
@@ -169,6 +215,33 @@ function createScene(
     render();
   }
 
+  // Label angka: biasa = banyak muncul; terpilih = frekuensi relatif + perbandingan dengan teori.
+  let lastCounts = new Array<number>(n).fill(0);
+  let selected: number | null = null;
+
+  function refreshLabels() {
+    const nTotal = total(lastCounts);
+    lastCounts.forEach((c, i) => {
+      const { el } = values[i];
+      const isSel = i === selected && nTotal > 0;
+      el.classList.toggle('is-selected', isSel);
+      // Satu fokus: angka batang lain disembunyikan agar tidak tertimpa kotak detail (tetap ada di tabel).
+      el.classList.toggle('is-hidden', selected !== null && !isSel);
+      if (isSel) {
+        el.replaceChildren(relativeText(c, nTotal), document.createElement('br'), comparisonText(c, nTotal, n));
+      } else {
+        el.textContent = nTotal ? String(c) : '';
+      }
+      bars[i].material = i === selected ? selMat : barMat;
+    });
+  }
+
+  function setSelected(index: number | null) {
+    selected = index;
+    refreshLabels();
+    render();
+  }
+
   // Tinggi batang
   let current = new Array<number>(n).fill(0);
   let theoH = MAX_H / 2;
@@ -183,14 +256,12 @@ function createScene(
   }
 
   function update(counts: number[]) {
-    const nTotal = total(counts);
     const rel = relativeFrequencies(counts);
     const yMax = chartScale(rel, theoretical);
     const toH = rel.map((r) => (r / yMax) * MAX_H);
     const toTh = (theoretical / yMax) * MAX_H;
-    counts.forEach((c, i) => {
-      if (values[i]) values[i].el.textContent = nTotal ? String(c) : '';
-    });
+    lastCounts = counts.slice();
+    refreshLabels();
 
     cancelAnimationFrame(raf);
     if (prefersReducedMotion()) {
@@ -241,9 +312,12 @@ function createScene(
 
   return {
     update,
+    setSelected,
     resetView,
     dispose() {
       cancelAnimationFrame(raf);
+      surface.removeEventListener('pointerdown', onDown);
+      surface.removeEventListener('pointerup', onUp);
       ro.disconnect();
       mq.removeEventListener('change', onTheme);
       mo.disconnect();
@@ -251,7 +325,7 @@ function createScene(
       scene.traverse((o) => {
         if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) o.geometry.dispose();
       });
-      [barMat, floorMat, theoMat, edgeMat].forEach((m) => m.dispose());
+      [barMat, selMat, hitMat, floorMat, theoMat, edgeMat].forEach((m) => m.dispose());
       renderer.dispose();
       renderer.domElement.remove();
       labelRenderer.domElement.remove();
@@ -259,11 +333,23 @@ function createScene(
   };
 }
 
-export default function Chart3D({ labels, counts, theoretical, theoreticalLabel, onUnavailable }: Chart3DProps) {
+export default function Chart3D({
+  labels,
+  counts,
+  theoretical,
+  theoreticalLabel,
+  selected,
+  onSelect,
+  onUnavailable,
+}: Chart3DProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<SceneApi | null>(null);
   const countsRef = useRef(counts);
   countsRef.current = counts;
+  const selectedRef = useRef(selected);
+  selectedRef.current = selected;
+  const selectRef = useRef(onSelect);
+  selectRef.current = onSelect;
   const unavailableRef = useRef(onUnavailable);
   unavailableRef.current = onUnavailable;
   const labelKey = labels.join('|');
@@ -273,13 +359,14 @@ export default function Chart3D({ labels, counts, theoretical, theoreticalLabel,
     if (!host) return;
     let api: SceneApi;
     try {
-      api = createScene(host, labelKey.split('|'), theoretical, theoreticalLabel);
+      api = createScene(host, labelKey.split('|'), theoretical, theoreticalLabel, (i) => selectRef.current(i));
     } catch {
       unavailableRef.current?.();
       return;
     }
     apiRef.current = api;
     api.update(countsRef.current);
+    api.setSelected(selectedRef.current);
     return () => {
       api.dispose();
       apiRef.current = null;
@@ -289,6 +376,10 @@ export default function Chart3D({ labels, counts, theoretical, theoreticalLabel,
   useEffect(() => {
     apiRef.current?.update(counts);
   }, [counts]);
+
+  useEffect(() => {
+    apiRef.current?.setSelected(selected);
+  }, [selected]);
 
   const n = total(counts);
   const summary =
@@ -302,7 +393,7 @@ export default function Chart3D({ labels, counts, theoretical, theoreticalLabel,
     <figure className="chart3d">
       <div ref={hostRef} className="chart3d-host" role="img" aria-label={summary} />
       <figcaption className="chart3d-caption">
-        <span className="muted">Geser grafik untuk memutar. Bidang tipis = peluang teoretik.</span>
+        <span className="muted">Geser untuk memutar. Ketuk batang untuk melihat detail. Bidang tipis = peluang teoretik.</span>
         <button type="button" className="btn-link" onClick={() => apiRef.current?.resetView()}>
           Reset
         </button>

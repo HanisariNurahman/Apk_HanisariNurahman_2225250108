@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   addCounts,
+  comparisonText,
+  compareToTheoretical,
+  relativeText,
   chartScale,
   mulberry32,
   relativeFrequencies,
@@ -65,5 +68,28 @@ describe('frekuensi', () => {
     expect(chartScale([0, 0], 0.5)).toBe(1);
     expect(chartScale([0.1, 0.2], 1 / 6)).toBeCloseTo(1 / 3);
     expect(chartScale([1, 0, 0, 0, 0, 0], 1 / 6)).toBe(1);
+  });
+});
+
+describe('perbandingan dengan peluang teoretik', () => {
+  it('membandingkan tanpa galat desimal', () => {
+    expect(compareToTheoretical(3, 10, 6)).toBe('more');
+    expect(compareToTheoretical(1, 10, 6)).toBe('less');
+    expect(compareToTheoretical(5, 30, 6)).toBe('equal');
+    expect(compareToTheoretical(5, 10, 2)).toBe('equal');
+    expect(compareToTheoretical(0, 0, 6)).toBeNull();
+  });
+
+  it('menulis teks perbandingan', () => {
+    expect(comparisonText(3, 10, 6)).toBe('lebih dari 1/6');
+    expect(comparisonText(5, 30, 6)).toBe('sama dengan 1/6');
+    expect(comparisonText(0, 4, 2)).toBe('kurang dari 1/2');
+    expect(comparisonText(0, 0, 2)).toBe('');
+  });
+
+  it('menulis frekuensi relatif sebagai pecahan dan desimal', () => {
+    expect(relativeText(3, 10)).toBe('3/10 ≈ 0,30');
+    expect(relativeText(1, 6)).toBe('1/6 ≈ 0,17');
+    expect(relativeText(0, 0)).toBe('–');
   });
 });

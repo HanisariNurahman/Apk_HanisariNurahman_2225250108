@@ -1,10 +1,10 @@
 // Halaman Simulasi koin & dadu (F7) [GL01, DS01].
 // TODO(M3/M5): kunci tombol 10×/50× sampai subbab Peluang selesai (IL04); log refleksi (F9).
 
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import BarChart2D from '../components/BarChart2D';
 import { coin, die } from '../lib/sampleSpace';
-import { addCounts, relativeFrequencies, rollMany, tally, total } from '../lib/simulation';
+import { addCounts, comparisonText, formatDecimal, rollMany, relativeText, tally, total } from '../lib/simulation';
 import { hasWebGL } from '../lib/webgl';
 import '../styles/simulation.css';
 
@@ -19,7 +19,6 @@ const EXPERIMENTS: Record<ExpKey, { name: string; labels: string[]; theoLabel: s
 
 const TRIALS = [1, 10, 50] as const;
 
-const dec = (x: number) => x.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function Simulation() {
   const [exp, setExp] = useState<ExpKey>('die');
@@ -30,15 +29,18 @@ export default function Simulation() {
   const [counts, setCounts] = useState<number[]>(() => new Array(EXPERIMENTS.die.labels.length).fill(0));
   const [last, setLast] = useState<number | null>(null);
   const [use3D, setUse3D] = useState(() => hasWebGL());
+  // Batang/baris yang sedang dilihat detailnya (ketuk lagi untuk menutup).
+  const [selected, setSelected] = useState<number | null>(null);
 
   const n = total(counts);
-  const rel = useMemo(() => relativeFrequencies(counts), [counts]);
+  const toggle = (i: number | null) => setSelected((cur) => (i === null || cur === i ? null : i));
 
   function chooseExperiment(next: ExpKey) {
     if (next === exp) return;
     setExp(next);
     setCounts(new Array(EXPERIMENTS[next].labels.length).fill(0));
     setLast(null);
+    setSelected(null);
   }
 
   function roll(times: number) {
@@ -50,9 +52,10 @@ export default function Simulation() {
   function reset() {
     setCounts(new Array(k).fill(0));
     setLast(null);
+    setSelected(null);
   }
 
-  const chartProps = { labels, counts, theoretical, theoreticalLabel: theoLabel };
+  const chartProps = { labels, counts, theoretical, theoreticalLabel: theoLabel, selected, onSelect: toggle };
 
   return (
     <main className="sim stack">
@@ -99,7 +102,7 @@ export default function Simulation() {
 
       <table className="sim-table">
         <caption className="muted">
-          Peluang teoretik tiap hasil: {theoLabel} ≈ {dec(theoretical)}
+          Peluang teoretik tiap hasil: {theoLabel} ≈ {formatDecimal(theoretical)}
         </caption>
         <thead>
           <tr>
@@ -109,13 +112,24 @@ export default function Simulation() {
           </tr>
         </thead>
         <tbody>
-          {labels.map((label, i) => (
-            <tr key={label}>
-              <th scope="row">{label}</th>
-              <td>{counts[i]}</td>
-              <td>{n === 0 ? '–' : `${counts[i]}/${n} ≈ ${dec(rel[i])}`}</td>
-            </tr>
-          ))}
+          {labels.map((label, i) => {
+            const isSel = selected === i;
+            return (
+              <tr key={label} className={isSel ? 'is-selected' : undefined}>
+                <th scope="row">
+                  <button type="button" className="sim-row-btn" aria-pressed={isSel} onClick={() => toggle(i)}>
+                    {label}
+                    {isSel && <span aria-hidden="true"> ✓</span>}
+                  </button>
+                </th>
+                <td>{counts[i]}</td>
+                <td>
+                  {relativeText(counts[i], n)}
+                  {isSel && n > 0 && <span className="sim-compare">{comparisonText(counts[i], n, k)}</span>}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
