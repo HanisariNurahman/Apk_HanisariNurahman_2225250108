@@ -1,0 +1,88 @@
+/* Token desain — sumber: docs/DESIGN.md §2.
+   Warna hanya untuk MAKNA (diketahui, ditanya, terpilih, benar, perlu dicek), bukan hiasan. */
+
+:root {
+  color-scheme: light;
+
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --text: #1c1f24;
+  --muted: #5b6270;
+  --border: #dfe2e7;
+  --primary: #2457c5;
+  --on-primary: #ffffff;
+
+  --known-bg: #dcebff;
+  --known-line: #2457c5;
+  --asked-bg: #ffe8cc;
+  --asked-line: #c25e00;
+  --selected-bg: #fff3b0;
+  --selected-line: #9a7a00;
+  --correct: #1b7f3b;
+  --check: #b3261e;
+
+  --font: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-scale: 1;
+  --fs-body: calc(17px * var(--font-scale));
+  --fs-title: calc(22px * var(--font-scale));
+  --fs-number: calc(30px * var(--font-scale));
+  --fs-small: calc(14px * var(--font-scale));
+
+  --gutter: 16px;
+  --gap: 16px;
+  --gap-lg: 24px;
+  --radius: 12px;
+  --touch: 48px;
+  --touch-outcome: 56px;
+  --btn-height: 52px;
+
+  --motion-fast: 200ms;
+  --motion-feedback: 300ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #16181d;
+    --surface: #1f2229;
+    --text: #ecedef;
+    --muted: #a3a9b5;
+    --border: #343843;
+    --primary: #7fa6f5;
+    --on-primary: #10131a;
+    --known-bg: #1e3358;
+    --known-line: #7fa6f5;
+    --asked-bg: #4a3016;
+    --asked-line: #f0a35c;
+    --selected-bg: #4a4012;
+    --selected-line: #e3c64a;
+    --correct: #5ccb80;
+    --check: #f2867e;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #16181d;
+  --surface: #1f2229;
+  --text: #ecedef;
+  --muted: #a3a9b5;
+  --border: #343843;
+  --primary: #7fa6f5;
+  --on-primary: #10131a;
+  --known-bg: #1e3358;
+  --known-line: #7fa6f5;
+  --asked-bg: #4a3016;
+  --asked-line: #f0a35c;
+  --selected-bg: #4a4012;
+  --selected-line: #e3c64a;
+  --correct: #5ccb80;
+  --check: #f2867e;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-feedback: 0ms;
+  }
+}
