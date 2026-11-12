@@ -31,8 +31,9 @@ Arsitektur: **React + PWA (frontend) + Python (backend FastAPI dan analisis data
 | Uji | Vitest (frontend), pytest (backend) | Logika inti dan API wajib teruji |
 | Hosting | Frontend: GitHub Pages/Netlify · Backend: Render/Railway · DB: PostgreSQL terkelola (mis. Neon) | Semua punya paket gratis; HTTPS wajib untuk PWA |
 
-> **Catatan versi Python:** laptop saat ini memakai Python 3.15. Beberapa paket (mis. `pydantic-core`) bisa belum menyediakan
-> *wheel* untuk versi terbaru. Jika `pip install` gagal, buat venv dengan Python 3.13 (mis. lewat `uv venv --python 3.13`).
+> **Catatan versi Python:** backend sudah terpasang dan teruji di Python 3.15. `uvicorn` dipasang **tanpa** `[standard]`,
+> karena PyYAML belum punya *wheel* 3.15 dan build dari sumber diblokir Windows Application Control di laptop ini.
+> Python 3.14 dari `uv` juga diblokir kebijakan yang sama, jadi gunakan Python bawaan sistem.
 
 ## 2. Struktur folder
 
@@ -111,6 +112,7 @@ export interface AttemptLog {
 ### Kunci localStorage
 - `peluangku:currentStudent` → `"S01"`
 - `peluangku:classCode` → `"8A"`
+- `peluangku:classKey` → kunci kelas dari guru (dikirim sebagai `X-Class-Key`)
 - `peluangku:progress:S01` → `Progress`
 - `peluangku:logs:S01` → `AttemptLog[]` (semua log, untuk ekspor cadangan)
 - `peluangku:synced:S01` → `string[]` id log yang sudah diterima server
@@ -129,6 +131,8 @@ Aturan:
 - **Validasi** (Pydantic): `studentCode` cocok `^[A-Z]\d{1,3}$`, `step` salah satu dari 5 nilai, `maxHintLevel` 0–3, `endedAt ≥ startedAt`.
 - `X-Class-Key` dicocokkan dengan daftar `CLASS_KEYS` di server. Ini mencegah kiriman iseng; bukan autentikasi kuat.
 - CORS hanya untuk `FRONTEND_ORIGIN`.
+- Semua waktu dinormalkan ke **UTC** saat diterima, dan diekspor dengan zona (`+00:00`), karena SQLite tidak menyimpan zona waktu.
+- JSON memakai camelCase (sama dengan `types.ts`); kolom CSV memakai snake_case (nama kolom tabel).
 
 ### Tabel `attempt_logs`
 `id (PK, text) · class_code · student_code · problem_id · step · started_at · ended_at · tries · max_hint_level · opened_discussion · correct · received_at`
@@ -174,7 +178,7 @@ npm run test
 # Backend
 cd backend
 python -m venv .venv && .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt   # requirements.txt saja untuk produksi
 copy .env.example .env         # isi CLASS_KEYS, TEACHER_TOKEN
 uvicorn app.main:app --reload  # http://127.0.0.1:8000/docs
 pytest

@@ -43,6 +43,7 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - [x] `lib/simulation.ts` + test (RNG ber-seed, frekuensi relatif, skala grafik)
 - [x] Halaman simulasi koin dan dadu + tabel frekuensi
 - [x] Grafik batang 3D interaktif (three.js, lazy-load) + cadangan 2D tanpa WebGL
+- [x] Ketuk batang/baris tabel → detail frekuensi relatif dan perbandingan dengan peluang teoretik
 - [x] Pertanyaan refleksi (tampil setelah ≥ 10 lemparan)
 - [ ] Uji di HP Android sungguhan: putar grafik, mode gelap, kelancaran di HP kelas bawah
 - [ ] Kunci tombol 10×/50× sampai subbab Peluang selesai (butuh progres dari M3)
@@ -57,14 +58,15 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 ## M7 — Log, sinkronisasi, dan ekspor (F11)
 - [ ] Pencatatan `AttemptLog` (dengan `id` UUID dan `classCode`)
 - [ ] Layar input kode kelas
-- [ ] `lib/sync.ts` + test (antrean, idempoten, retry saat online)
+- [x] `lib/sync.ts` + test (antrean, idempoten, batch ≤ 500; diuji ujung ke ujung ke FastAPI lokal)
+- [ ] Panggil `syncStudent` saat aplikasi dibuka, event `online`, dan setelah soal selesai
 - [ ] Area guru (PIN): jumlah log belum terkirim + ekspor CSV lokal
 
 ## B1 — Backend FastAPI (Python)
-- [ ] Siapkan venv (Python 3.13 jika paket gagal dipasang di 3.15)
-- [ ] `backend/app`: config, db, models, schemas, security, router logs & teacher (ARCHITECTURE §4)
-- [ ] `.env.example`; rahasia tidak di-commit
-- [ ] pytest: log valid, duplikat, kunci kelas salah (401), token guru salah (401), data tidak valid (422)
+- [x] Siapkan venv (Python 3.15 berhasil; `uvicorn` tanpa `[standard]` karena PyYAML belum punya wheel 3.15)
+- [x] `backend/app`: config, db, models, schemas, security, router logs & teacher (ARCHITECTURE §4)
+- [x] `.env.example`; rahasia tidak di-commit
+- [x] pytest: log valid, duplikat, kunci kelas salah (401), token guru salah (401), data tidak valid (422)
 - **Selesai jika:** `pytest` hijau dan `/docs` bisa dibuka
 
 ## B2 — Deploy backend

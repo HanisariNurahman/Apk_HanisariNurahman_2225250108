@@ -10,6 +10,7 @@ const PREFIX = 'peluangku:';
 export const keys = {
   currentStudent: `${PREFIX}currentStudent`,
   classCode: `${PREFIX}classCode`,
+  classKey: `${PREFIX}classKey`, // kunci kelas dari guru untuk header X-Class-Key (bukan data pribadi)
   progress: (code: string) => `${PREFIX}progress:${code}`,
   logs: (code: string) => `${PREFIX}logs:${code}`,
   synced: (code: string) => `${PREFIX}synced:${code}`,
