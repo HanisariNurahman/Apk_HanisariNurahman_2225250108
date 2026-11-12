@@ -19,9 +19,9 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - **Selesai jika:** `npm run test` hijau
 
 ## M2 — Kerangka dan Beranda
-- [ ] Router + halaman kosong
-- [ ] Layar input kode siswa (S01, …) saat pertama kali dibuka
-- [ ] Beranda (DESIGN §4.1) dengan tombol "Lanjutkan"
+- [x] Router (HashRouter) + halaman kosong Belajar, Latihan, Ingat Pecahan
+- [x] Layar input kode siswa (S01, …) saat pertama kali dibuka; ganti kode lewat menu ⋮, progres per kode
+- [x] Beranda (DESIGN §4.1) dengan tombol "Lanjutkan" (`lib/home.ts` + test)
 - **Selesai jika:** lebar 360 px tanpa scroll horizontal
 
 ## M3 — Belajar (F1 + F2)

@@ -1,0 +1,78 @@
+/* Beranda (DESIGN §4.1) */
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--gap-lg);
+}
+
+.home-title {
+  flex: 1;
+  font-size: var(--fs-title);
+  font-weight: 700;
+}
+
+.code-chip {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.continue {
+  margin-bottom: var(--gap-lg);
+}
+
+.continue p {
+  margin: 0;
+}
+
+.continue-title {
+  margin: 0;
+}
+
+.continue .btn-primary {
+  margin-top: var(--gap);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 112px;
+  padding: var(--gutter);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tile-title {
+  font-weight: 700;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+}
+
+.dot.is-done {
+  /* Netral, bukan --correct: "selesai" bukan "benar". Jumlahnya juga tertulis sebagai teks. */
+  border-color: var(--text);
+  background: var(--text);
+}

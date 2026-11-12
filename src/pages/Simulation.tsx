@@ -3,6 +3,7 @@
 
 import { lazy, Suspense, useState } from 'react';
 import BarChart2D from '../components/BarChart2D';
+import PageHeader from '../components/PageHeader';
 import { coin, die } from '../lib/sampleSpace';
 import { addCounts, comparisonText, formatDecimal, rollMany, relativeText, tally, total } from '../lib/simulation';
 import { hasWebGL } from '../lib/webgl';
@@ -59,7 +60,7 @@ export default function Simulation() {
 
   return (
     <main className="sim stack">
-      <h1>Simulasi</h1>
+      <PageHeader title="Simulasi" />
 
       <div className="seg" role="group" aria-label="Pilih percobaan">
         {(Object.keys(EXPERIMENTS) as ExpKey[]).map((key) => (

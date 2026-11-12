@@ -119,3 +119,112 @@ button:disabled {
   outline: 3px solid var(--primary);
   outline-offset: 2px;
 }
+
+/* Tautan yang tampil sebagai tombol penuh lebar */
+.btn-link-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.icon-btn {
+  width: var(--touch);
+  height: var(--touch);
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Kepala halaman: ← Beranda + judul */
+.page-header {
+  margin-bottom: var(--gap);
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--touch);
+  margin-left: -8px;
+  padding: 0 8px;
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Menu ⋮ */
+.app-menu {
+  position: relative;
+}
+
+.app-menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 10;
+  width: min(260px, calc(100vw - 2 * var(--gutter)));
+  padding: 8px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+}
+
+.app-menu-item {
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 0 8px;
+}
+
+.app-menu-panel p {
+  margin: 4px 8px 4px;
+}
+
+/* Layar kode siswa */
+.code-screen {
+  padding-top: 15vh;
+}
+
+.code-label {
+  display: block;
+  font-weight: 700;
+}
+
+.code-screen form .muted {
+  margin: 4px 0 0;
+}
+
+.code-input {
+  width: 100%;
+  height: var(--btn-height);
+  padding: 0 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-number);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.code-input.is-check {
+  border-color: var(--check);
+}
+
+.field-error {
+  margin: 8px 0 0;
+  color: var(--check);
+  font-size: var(--fs-small);
+}
