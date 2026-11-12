@@ -5,7 +5,7 @@ Arsitektur: **React + PWA (frontend) + Python (backend FastAPI dan analisis data
 ```
  HP siswa (Chrome Android)                      Server (cloud)                     Laptop peneliti
 ┌──────────────────────────────┐   HTTPS    ┌───────────────────────────┐      ┌──────────────────────┐
-│ PWA React                    │  POST log  │ FastAPI  /api/...         │      │ analysis/ (pandas)   │
+│ PWA React                    │  POST log  │ FastAPI  /api/...         │      │ analysis/ (Python)   │
 │ • semua materi & soal offline│ ─────────► │ • terima log (idempoten)  │ ◄─── │ • tarik CSV dari API │
 │ • log disimpan dulu di       │  (saat     │ • dasbor/ekspor guru      │ CSV  │ • tabel & grafik     │
 │   localStorage (antrean)     │  online)   │ PostgreSQL / SQLite (dev) │      │   tahap Evaluation   │
@@ -27,7 +27,7 @@ Arsitektur: **React + PWA (frontend) + Python (backend FastAPI dan analisis data
 | Penyimpanan klien | `localStorage` | Progres per kode siswa + antrean log yang belum terkirim |
 | **Backend** | **Python 3.12/3.13 + FastAPI + SQLAlchemy 2** | Validasi data otomatis (Pydantic), dokumentasi API otomatis di `/docs` |
 | Database | SQLite (pengembangan) / PostgreSQL (produksi) | Dipilih lewat `DATABASE_URL` |
-| **Analisis** | **Python + pandas + matplotlib** | Mengolah log untuk tahap Evaluation ADDIE |
+| **Analisis** | **Python (csv, statistics) + matplotlib** | Mengolah log untuk tahap Evaluation ADDIE. pandas tidak dipakai karena DLL-nya diblokir Smart App Control (Windows) di laptop peneliti; numpy & matplotlib lolos |
 | Uji | Vitest (frontend), pytest (backend) | Logika inti dan API wajib teruji |
 | Hosting | Frontend: GitHub Pages/Netlify · Backend: Render/Railway · DB: PostgreSQL terkelola (mis. Neon) | Semua punya paket gratis; HTTPS wajib untuk PWA |
 
@@ -69,10 +69,13 @@ Aplikasi/
 │   │       └── teacher.py          # GET /api/teacher/...
 │   └── tests/                      # pytest + TestClient
 └── analysis/
-    ├── requirements.txt            # pandas, matplotlib
+    ├── requirements.txt            # matplotlib (+ numpy), pytest
     ├── README.md                   # cara menjalankan
     ├── load.py                     # ambil data dari CSV ekspor atau API guru
-    └── report.py                   # tabel & grafik untuk laporan Evaluation
+    ├── metrics.py                  # ukuran deskriptif (per soal, tren petunjuk, per langkah)
+    ├── sample_data.py              # data contoh BUATAN untuk uji alur
+    ├── report.py                   # tabel CSV, grafik PNG, laporan.md
+    └── tests/                      # pytest
 ```
 
 ## 3. Model data (frontend)

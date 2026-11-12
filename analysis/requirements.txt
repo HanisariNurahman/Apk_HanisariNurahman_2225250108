@@ -1,0 +1,4 @@
+# pandas sengaja tidak dipakai: DLL-nya diblokir Smart App Control di laptop peneliti.
+numpy>=2.0
+matplotlib>=3.9
+pytest>=8.3

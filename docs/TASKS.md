@@ -74,8 +74,8 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - [ ] Uji end-to-end: HP offline → kerjakan soal → online → log muncul di `/api/teacher/summary`
 
 ## A1 — Analisis data (Python)
-- [ ] `analysis/load.py` (CSV atau API) dan `report.py` (tabel & grafik)
-- [ ] Uji dengan data contoh buatan (bukan data siswa)
+- [x] `analysis/load.py` (CSV atau API), `metrics.py`, dan `report.py` (tabel, grafik PNG, `laporan.md`)
+- [x] Uji dengan data contoh buatan (bukan data siswa): `sample_data.py` + pytest
 
 ## M8 — PWA, aksesibilitas, rilis
 - [ ] Manifest, ikon, service worker; uji offline

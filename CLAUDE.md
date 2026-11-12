@@ -21,7 +21,7 @@ Tujuannya menurunkan *extraneous cognitive load*, mengelola *intrinsic load* lew
 
 - **Frontend (root):** Vite + React 18 + TypeScript, CSS variables, `vite-plugin-pwa`
 - **Backend (`backend/`):** Python + FastAPI + SQLAlchemy 2; SQLite saat pengembangan, PostgreSQL di produksi
-- **Analisis (`analysis/`):** Python + pandas + matplotlib
+- **Analisis (`analysis/`):** Python (pustaka bawaan `csv`/`statistics`) + matplotlib. Tanpa pandas: DLL-nya diblokir Smart App Control di laptop peneliti
 - **Offline-first:** aplikasi harus berfungsi penuh tanpa internet. Backend hanya untuk mengumpulkan log penelitian.
   Log disimpan dulu di `localStorage`, lalu dikirim saat online (`src/lib/sync.ts`). Tidak boleh ada fitur belajar yang bergantung pada server.
 - Tidak ada login siswa dan tidak ada analitik pihak ketiga.
