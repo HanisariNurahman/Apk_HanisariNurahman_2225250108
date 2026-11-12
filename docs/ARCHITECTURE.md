@@ -22,6 +22,7 @@ Arsitektur: **React + PWA (frontend) + Python (backend FastAPI dan analisis data
 | Jenis aplikasi | Web app + **PWA** | Dibuka lewat Chrome Android, bisa di-*install*, berjalan offline, tanpa Play Store |
 | Frontend | **Vite + React 18 + TypeScript** | Populer dan cocok untuk *vibe coding*; TypeScript mencegah kesalahan pada data soal |
 | Styling | CSS biasa + CSS variables | Ringan; token mengikuti DESIGN.md |
+| Grafik 3D | **three.js 0.170** (tanpa react-three-fiber) + `OrbitControls` + `CSS2DRenderer` untuk label | Grafik simulasi interaktif; di-*lazy-load* (`React.lazy`) agar bundle awal tetap kecil; render sesuai permintaan, bukan loop terus-menerus |
 | Routing | `react-router-dom` (HashRouter) | Aman untuk hosting statis |
 | Penyimpanan klien | `localStorage` | Progres per kode siswa + antrean log yang belum terkirim |
 | **Backend** | **Python 3.12/3.13 + FastAPI + SQLAlchemy 2** | Validasi data otomatis (Pydantic), dokumentasi API otomatis di `/docs` |
@@ -48,8 +49,9 @@ Aplikasi/
 │   ├── styles/        tokens.css, base.css
 │   ├── pages/         Home, Learn, Practice, Simulation, FractionRefresher, TeacherArea
 │   ├── components/    SampleSpaceBoard, StepGuide, StoryMarker, HintLadder, Feedback,
-│   │                  FractionInput, FractionView, Reflection, CardDeck
-│   ├── lib/           fraction, sampleSpace, grader, simulation, fading, storage, sync  (+ *.test.ts)
+│   │                  FractionInput, FractionView, Reflection, CardDeck,
+│   │                  Chart3D (three.js, lazy), BarChart2D (cadangan tanpa WebGL)
+│   ├── lib/           fraction, sampleSpace, grader, simulation, fading, storage, sync, webgl  (+ *.test.ts)
 │   └── content/       lessons.ts, problems.ts, fractionCards.ts
 ├── backend/
 │   ├── pyproject.toml / requirements.txt

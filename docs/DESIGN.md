@@ -140,25 +140,37 @@ Titik sampel yang dipilih diberi latar `--selected` dan tanda ✓. S tetap terli
 ```
 Nada umpan balik: tidak menghakimi, menyebut bagian yang keliru, dan memberi alasan (GL02).
 
-### 4.5 Simulasi (F7)
+### 4.5 Simulasi (F7) dengan grafik 3D
 ```
 ┌──────────────────────────────┐
-│ ← Simulasi Dadu              │
-│        [  ⚄  ]               │
+│ Simulasi                     │
+│ [  Dadu  ] [  Koin  ]        │
+│ Hasil terakhir: ⚄ 5   50 lempar│
 │ [Lempar 1×] [10×] [50×]      │
-│                              │
-│ Angka  Muncul  Frek. relatif │
-│  1  ███  8      8/50         │
-│  2  ██   6      6/50         │
+│ ┌──────────────────────────┐ │
+│ │      8                   │ │  ← grafik batang 3D (three.js)
+│ │  ▆  ▆  6  ▆        ▆     │ │     bisa diputar dengan jari
+│ │ ═══════════════ Teoretik │ │  ← bidang transparan = 1/6
+│ │  ▆  ▆  ▆  ▆  ▆  ▆        │ │
+│ │  1  2  3  4  5  6        │ │
+│ └──────────────────────────┘ │
+│ Geser untuk memutar.  Reset  │
+│ Hasil  Muncul  Frek. relatif │
+│  1      8      8/50 ≈ 0,16   │
 │  …                           │
-│ Peluang teoretik tiap angka: │
-│ 1/6 ≈ 0,17                   │
-│                              │
-│ 💭 Mengapa hasilnya tidak    │
-│    persis sama?  [Jawab]     │
+│ 💭 Mengapa tidak tepat 1/6?  │
 │ [ Ulang dari nol ]           │
 └──────────────────────────────┘
 ```
+
+**Aturan grafik 3D:**
+- 3D hanya dipakai bila menambah makna: batang = titik sampel, bidang = peluang teoretik. Tidak ada objek, bayangan, atau latar dekoratif.
+- Warna: batang `--primary`, bidang teoretik warna teks netral transparan. Tidak ada warna makna baru.
+- Label nama hasil dan frekuensi menempel pada batang (kedekatan), bukan di legenda terpisah.
+- Interaksi: putar dengan satu jari, sudut dibatasi ±60° horizontal; tanpa geser (pan), tanpa rotasi otomatis; tombol Reset.
+- Animasi tinggi batang 300 ms ease-out; langsung berubah bila `prefers-reduced-motion`.
+- Tabel di bawah grafik tetap ada sebagai sumber data yang dapat dibaca pembaca layar.
+- Tanpa WebGL → grafik 2D (`BarChart2D`) dengan garis putus-putus untuk peluang teoretik.
 
 ## 5. Pola interaksi petunjuk bertingkat (F5)
 

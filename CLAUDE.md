@@ -48,6 +48,9 @@ cd backend && pytest
 5. **Jangan pernah langsung menampilkan jawaban akhir.** Petunjuk diberikan bertingkat (Level 1 → 2 → 3). Jawaban akhir hanya muncul setelah siswa menekan tombol eksplisit "Lihat pembahasan", dan pemakaiannya dicatat (GL03, DS02).
 6. **Umpan balik harus menyertakan alasan**, bukan hanya "Benar/Salah" (GL02).
 7. **Animasi minimal.** Durasi ≤ 300 ms, hanya untuk umpan balik (misalnya dadu dilempar). Hormati `prefers-reduced-motion`.
+   **Grafik 3D (three.js)** hanya di [Chart3D.tsx](src/components/Chart3D.tsx): wajib lazy-load, render sesuai permintaan
+   (tanpa loop `requestAnimationFrame` permanen), tanpa rotasi otomatis atau objek hiasan, dan harus selalu punya cadangan 2D
+   serta tabel data. Lihat DESIGN.md §4.5.
 8. **Bahasa:** Bahasa Indonesia baku tetapi ramah, kalimat pendek (≤ 20 kata), sapaan "kamu". Hindari istilah CLT (intrinsic, extraneous, germane) di UI.
 9. **Tanpa data pribadi.** Siswa hanya memasukkan kode (contoh: S01). Jangan menambahkan field nama, email, atau foto.
 10. **Mobile-first.** Uji pada lebar 360 px. Target sentuh minimal 48×48 px. Tidak boleh ada scroll horizontal.

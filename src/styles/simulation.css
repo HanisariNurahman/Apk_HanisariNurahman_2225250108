@@ -1,0 +1,161 @@
+.sim-last {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.sim-last strong {
+  font-size: var(--fs-number);
+}
+
+.sim-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Grafik 3D */
+.chart3d {
+  margin: 0;
+}
+
+.chart3d-host,
+.chart-loading {
+  position: relative;
+  height: 280px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.chart-loading {
+  display: grid;
+  place-items: center;
+}
+
+.chart3d-host canvas,
+.chart3d-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.chart3d-overlay {
+  touch-action: none;
+}
+
+.chart3d-label,
+.chart3d-value,
+.chart3d-theo {
+  pointer-events: none;
+  white-space: nowrap;
+  font-size: var(--fs-small);
+  color: var(--text);
+}
+
+.chart3d-value {
+  font-weight: 700;
+}
+
+.chart3d-theo {
+  color: var(--muted);
+}
+
+.chart3d-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Grafik 2D cadangan */
+.chart2d {
+  margin: 0;
+}
+
+.chart2d-plot {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 24px 8px 0;
+  border-bottom: 2px solid var(--border);
+}
+
+.chart2d-col {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.chart2d-bar {
+  width: 100%;
+  background: var(--primary);
+  border-radius: 6px 6px 0 0;
+  transition: height var(--motion-feedback) ease-out;
+}
+
+.chart2d-value {
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.chart2d-theo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px dashed var(--muted);
+  transition: bottom var(--motion-feedback) ease-out;
+}
+
+.chart2d-theo span {
+  position: absolute;
+  right: 4px;
+  top: -1.4em;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.chart2d-labels {
+  display: flex;
+  gap: 8px;
+  padding: 4px 8px 0;
+}
+
+.chart2d-labels span {
+  flex: 1;
+  text-align: center;
+  font-size: var(--fs-small);
+}
+
+/* Tabel */
+.sim-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sim-table caption {
+  text-align: left;
+  padding-bottom: 8px;
+}
+
+.sim-table th,
+.sim-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.sim-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-reflect p {
+  margin: 0;
+}

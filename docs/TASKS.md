@@ -40,9 +40,13 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - **Selesai jika:** soal D-01 hingga C-04 dapat dikerjakan dari awal sampai akhir
 
 ## M5 — Simulasi (F7)
-- [ ] `lib/simulation.ts` + test
-- [ ] Halaman simulasi koin dan dadu, tabel frekuensi, dan diagram batang sederhana (CSS)
-- [ ] Pertanyaan refleksi
+- [x] `lib/simulation.ts` + test (RNG ber-seed, frekuensi relatif, skala grafik)
+- [x] Halaman simulasi koin dan dadu + tabel frekuensi
+- [x] Grafik batang 3D interaktif (three.js, lazy-load) + cadangan 2D tanpa WebGL
+- [x] Pertanyaan refleksi (tampil setelah ≥ 10 lemparan)
+- [ ] Uji di HP Android sungguhan: putar grafik, mode gelap, kelancaran di HP kelas bawah
+- [ ] Kunci tombol 10×/50× sampai subbab Peluang selesai (butuh progres dari M3)
+- [ ] Simpan jawaban refleksi (F9)
 
 ## M6 — Fading, refleksi, prasyarat, transfer (F5-fading, F8, F9, F10)
 - [ ] `lib/fading.ts` + test

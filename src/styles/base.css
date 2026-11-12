@@ -56,6 +56,53 @@ button {
   font-weight: 600;
 }
 
+.btn-secondary {
+  width: 100%;
+  min-height: var(--btn-height);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-link {
+  background: none;
+  border: 0;
+  padding: 0 8px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.seg button {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.stack > * + * {
+  margin-top: var(--gap);
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);

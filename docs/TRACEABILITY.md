@@ -52,4 +52,5 @@ Informan: **S01** (kelas VIII, wawancara 8 November 2026, 45 menit). Data dari S
 | Tanggal | Perubahan | Alasan / bukti |
 |---|---|---|
 | 2026-11-12 | Draf awal v0.1 | Hasil wawancara S01 |
+| 2026-11-12 | Grafik simulasi menjadi 3D interaktif (three.js) dengan bidang peluang teoretik; dibatasi agar tidak menambah beban yang tidak relevan (tanpa hiasan/rotasi otomatis, cadangan 2D, tabel tetap ada) | Permintaan peneliti; GL01 & DS01 (simulasi konkret), dibatasi oleh EL03 & DS03 |
 | 2026-11-12 | Ditambah backend FastAPI (pengumpulan log) dan skrip analisis Python (F12, F13); aplikasi tetap offline-first | Kebutuhan data tahap Implementation/Evaluation (Matriks H: catat bantuan yang dibutuhkan) |

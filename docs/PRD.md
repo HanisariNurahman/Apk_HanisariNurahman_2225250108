@@ -91,7 +91,11 @@ Setiap soal dikerjakan dalam lima langkah tetap. Langkah aktif ditampilkan; lang
 - Jawaban yang setara dianggap benar (3/6 = 1/2), lalu siswa diajak menyederhanakannya.
 
 ### F7. Simulasi koin dan dadu (P0) [GL01, DS01]
-- Lempar 1×, 10×, atau 50× (P1: 100×). Hasil ditampilkan sebagai tabel frekuensi dan diagram batang sederhana.
+- Lempar 1×, 10×, atau 50× (P1: 100×). Hasil ditampilkan sebagai tabel frekuensi dan **grafik batang 3D interaktif (three.js)**.
+  - Satu batang untuk setiap titik sampel. Tinggi batang = frekuensi relatif. Angka frekuensi menempel di atas batang.
+  - **Bidang transparan** menunjukkan peluang teoretik, sehingga siswa melihat langsung jarak antara hasil percobaan dan teori.
+  - Siswa memutar grafik dengan satu jari (sudut dibatasi; tanpa geser atau rotasi otomatis). Ada tombol **Reset**.
+  - Jika WebGL tidak tersedia, aplikasi otomatis memakai grafik batang 2D.
 - Di samping hasil, ditampilkan perbandingan frekuensi relatif dengan peluang teoretik.
 - Pertanyaan refleksi setelah simulasi: *"Mengapa hasilnya tidak selalu tepat 1/2?"*
 - Lemparan berulang baru dibuka setelah modul F1 subbab Peluang selesai (karena IL04: percobaan berulang menambah kesulitan).
@@ -128,7 +132,7 @@ Setiap soal dikerjakan dalam lima langkah tetap. Langkah aktif ditampilkan; lang
 | Aspek | Target |
 |---|---|
 | Perangkat | Android 9+ dengan Chrome; layar 360×640 px atau lebih |
-| Kinerja | Muat pertama < 3 detik di 4G; ukuran bundle JS < 300 KB (gzip) |
+| Kinerja | Muat pertama < 3 detik di 4G; bundle JS awal < 300 KB (gzip). three.js (~126 KB gzip) dimuat terpisah hanya di halaman Simulasi; grafik 3D dirender hanya saat ada perubahan |
 | Offline | Semua materi dan soal tersedia offline setelah kunjungan pertama (PWA) |
 | Aksesibilitas | Kontras teks ≥ 4.5:1, target sentuh ≥ 48 px, ukuran huruf dasar 16–18 px, mendukung pembaca layar untuk tombol utama |
 | Privasi | Tanpa data pribadi atau cookie pelacak. Server hanya menerima kode kelas, kode siswa, dan data jawaban (lihat ARCHITECTURE §6) |
