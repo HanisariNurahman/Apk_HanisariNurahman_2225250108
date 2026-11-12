@@ -148,6 +148,11 @@ dengan indeks pada `(class_code, student_code)`.
 3. Id yang ada di `accepted` dan `duplicates` ditandai sebagai terkirim.
 4. Gagal (offline/5xx) → dicoba lagi nanti; tidak pernah mengganggu siswa. Tidak ada pesan error di layar belajar.
 5. Area guru menampilkan "N log belum terkirim" dan tombol ekspor CSV lokal sebagai cadangan.
+6. Kunci kelas (`X-Class-Key`) diisi guru di Area guru pada tiap HP, bukan oleh siswa.
+7. `id` log dibuat dengan `crypto.getRandomValues` (bukan `crypto.randomUUID`), karena `randomUUID` tidak tersedia di
+   `http://IP-laptop` saat uji coba lewat Wi-Fi.
+8. PIN guru disimpan sebagai hash (FNV-1a bergaram). Ini hanya penghalang agar siswa tidak membuka area guru tanpa sengaja,
+   bukan keamanan kuat.
 
 ## 6. Privasi dan etika data
 

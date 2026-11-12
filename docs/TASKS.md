@@ -25,18 +25,18 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - **Selesai jika:** lebar 360 px tanpa scroll horizontal
 
 ## M3 — Belajar (F1 + F2)
-- [ ] `CardDeck` (Lanjut/Kembali, indikator posisi)
-- [ ] `SampleSpaceBoard` (grid, ketuk untuk memilih, n(S)/n(A) langsung)
-- [ ] Isi `content/lessons.ts` subbab 1–4 (CONTENT.md §2)
+- [x] `CardDeck` (Lanjut/Kembali, indikator posisi; Lanjut aktif setelah interaksi kartu selesai)
+- [x] `SampleSpaceBoard` (grid, ketuk untuk memilih, n(S)/n(A) langsung)
+- [x] Isi `content/lessons.ts` subbab 1–4 (CONTENT.md §2), 5 kartu per subbab; subbab berikutnya terkunci sampai yang sebelumnya selesai
 - **Selesai jika:** siswa bisa menyelesaikan keempat subbab; progres tersimpan
 
 ## M4 — Latihan (F3, F4, F5, F6)
-- [ ] `StepGuide` 5 langkah dengan penguncian langkah ④
-- [ ] `StoryMarker` (diketahui/ditanya)
-- [ ] `HintLadder` L1–L3 + tombol "Lihat pembahasan"
-- [ ] `Feedback` dengan pesan dari `grader`
-- [ ] `FractionInput` / `FractionView`
-- [ ] Isi `content/problems.ts` (minimal level Dasar dan Cerita pendek)
+- [x] Pemandu 5 langkah (`pages/Practice.tsx`) dengan penguncian langkah ④
+- [x] `StoryMarker` (diketahui/ditanya) + `lib/marking.ts`
+- [x] `HintLadder` L1–L3 + tombol "Lihat pembahasan" (dicatat di log)
+- [x] `Feedback` dengan pesan dari `grader`
+- [x] `FractionInput` / `FractionView`
+- [x] Isi `content/problems.ts`: 14 soal CONTENT.md §4 (Dasar, Cerita pendek, Cerita panjang, Lanjut)
 - **Selesai jika:** soal D-01 hingga C-04 dapat dikerjakan dari awal sampai akhir
 
 ## M5 — Simulasi (F7)
@@ -46,21 +46,21 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - [x] Ketuk batang/baris tabel → detail frekuensi relatif dan perbandingan dengan peluang teoretik
 - [x] Pertanyaan refleksi (tampil setelah ≥ 10 lemparan)
 - [ ] Uji di HP Android sungguhan: putar grafik, mode gelap, kelancaran di HP kelas bawah
-- [ ] Kunci tombol 10×/50× sampai subbab Peluang selesai (butuh progres dari M3)
-- [ ] Simpan jawaban refleksi (F9)
+- [x] Kunci tombol 10×/50× sampai subbab Peluang selesai
+- [x] Simpan jawaban refleksi (F9, di HP)
 
 ## M6 — Fading, refleksi, prasyarat, transfer (F5-fading, F8, F9, F10)
-- [ ] `lib/fading.ts` + test
-- [ ] Kartu "Ingat lagi: Pecahan"
-- [ ] `Reflection` (isian alasan)
-- [ ] Soal cerita panjang + label "Mirip dengan …"
+- [x] `lib/fading.ts` + test
+- [x] Kartu "Ingat lagi: Pecahan" (halaman + otomatis saat `P_NOT_SIMPLE`)
+- [x] `Reflection` (isian alasan + kalimat sendiri opsional)
+- [x] Soal cerita panjang + label "Mirip dengan …"
 
 ## M7 — Log, sinkronisasi, dan ekspor (F11)
-- [ ] Pencatatan `AttemptLog` (dengan `id` UUID dan `classCode`)
-- [ ] Layar input kode kelas
+- [x] Pencatatan `AttemptLog` (dengan `id` UUID dan `classCode`)
+- [x] Layar input kode kelas (bersama kode siswa)
 - [x] `lib/sync.ts` + test (antrean, idempoten, batch ≤ 500; diuji ujung ke ujung ke FastAPI lokal)
-- [ ] Panggil `syncStudent` saat aplikasi dibuka, event `online`, dan setelah soal selesai
-- [ ] Area guru (PIN): jumlah log belum terkirim + ekspor CSV lokal
+- [x] Panggil sinkronisasi saat aplikasi dibuka, event `online`, dan setelah soal selesai
+- [x] Area guru (PIN): jumlah log belum terkirim + kunci kelas + ekspor CSV lokal
 
 ## B1 — Backend FastAPI (Python)
 - [x] Siapkan venv (Python 3.15 berhasil; `uvicorn` tanpa `[standard]` karena PyYAML belum punya wheel 3.15)
@@ -78,9 +78,9 @@ Tip *vibe coding*: berikan satu milestone per perintah ke Claude Code, misalnya 
 - [x] Uji dengan data contoh buatan (bukan data siswa): `sample_data.py` + pytest
 
 ## M8 — PWA, aksesibilitas, rilis
-- [ ] Manifest, ikon, service worker; uji offline
-- [ ] Pengaturan ukuran huruf dan mode gelap
-- [ ] Daftar periksa DESIGN §7
+- [x] Manifest, ikon PNG 192/512/maskable, service worker; uji offline (build produksi, mode pesawat)
+- [x] Pengaturan ukuran huruf dan mode gelap (menu ⋮)
+- [ ] Daftar periksa DESIGN §7 (sudah: 360 px tanpa scroll, warna + teks/ikon, tanpa jawaban langsung, reduced-motion; belum: ukur kontras WCAG AA)
 - [ ] Deploy (GitHub Pages / Netlify); uji "Tambahkan ke Layar Utama"
 
 ## M9 — Validasi dan revisi (ADDIE Development → Implementation)

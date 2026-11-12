@@ -54,3 +54,11 @@ Informan: **S01** (kelas VIII, wawancara 8 November 2026, 45 menit). Data dari S
 | 2026-11-12 | Draf awal v0.1 | Hasil wawancara S01 |
 | 2026-11-12 | Grafik simulasi menjadi 3D interaktif (three.js) dengan bidang peluang teoretik; dibatasi agar tidak menambah beban yang tidak relevan (tanpa hiasan/rotasi otomatis, cadangan 2D, tabel tetap ada) | Permintaan peneliti; GL01 & DS01 (simulasi konkret), dibatasi oleh EL03 & DS03 |
 | 2026-11-12 | Ditambah backend FastAPI (pengumpulan log) dan skrip analisis Python (F12, F13); aplikasi tetap offline-first | Kebutuhan data tahap Implementation/Evaluation (Matriks H: catat bantuan yang dibutuhkan) |
+| 2026-11-12 | Simulasi: batang 3D/baris tabel bisa diketuk untuk melihat frekuensi relatif dan perbandingannya dengan teori ("lebih dari 1/6") | GL01; detail diletakkan di atas batang (EL02), satu fokus (EL03) |
+| 2026-11-12 | Analisis tanpa pandas (pustaka bawaan + matplotlib) | DLL pandas diblokir Smart App Control di laptop peneliti; hasil analisis tidak berubah |
+| 2026-11-12 | Subbab Belajar berikutnya terkunci sampai subbab sebelumnya selesai | EL04 (urutan tetap S → A → P) |
+| 2026-11-12 | Penandaan: Diketahui = benda, jumlahnya, dan cara mengambil/melempar; Ditanya = kalimat "Berapa peluang …". Setelah 2× keliru siswa boleh melihat penanda yang benar (log `correct = false`) | F4: "siswa tetap bisa lanjut setelah melihat penanda yang benar" (EL01, EL05) |
+| 2026-11-12 | Langkah ⑤: untuk P = 0 atau P = 1, 0/6 dan 6/6 diterima (kotak pecahan tidak bisa diisi "0" atau "1" saja) | GL02 tetap: umpan balik menjelaskan "tidak mungkin"/"pasti" |
+| 2026-11-12 | Fading: hanya langkah ①–③ yang diringkas setelah 2× benar mandiri; ④–⑤ selalu dikerjakan; penandaan pada cerita panjang tidak pernah diringkas | GL03; IL04/EL01 (cerita panjang punya pengecoh yang justru harus dilatih) |
+| 2026-11-12 | Lempar 10×/50× dan soal Lanjut (dua koin) dikunci sampai prasyaratnya selesai | IL04 |
+| 2026-11-12 | Jawaban refleksi (F9) disimpan di HP, tidak dikirim ke server | Skema `AttemptLog` tetap; isian refleksi bisa berupa teks bebas siswa (privasi) |

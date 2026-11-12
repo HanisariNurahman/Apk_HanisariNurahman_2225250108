@@ -118,3 +118,18 @@ Format: **ID** · level · konteks · tag struktur
 2. Pecahan senilai: 3/6 = 1/2 (dua batang berdampingan)
 3. Menyederhanakan: bagi pembilang dan penyebut dengan FPB-nya
 4. Latihan cepat: 2/4, 4/8, 3/9, 5/10
+
+## 8. Catatan implementasi (v0.2)
+
+- Kartu belajar ada di `src/content/lessons.ts`, soal di `src/content/problems.ts`, kartu pecahan di `src/content/fractionCards.ts`.
+  `src/lib/content.test.ts` memeriksa: ≤ 60 kata per kartu, ≤ 20 kata per kalimat soal, kunci jawaban = n(A)/n(S), dan setiap
+  frasa penanda bisa diketuk.
+- **Aturan penandaan (F4):** *Diketahui* = benda, jumlahnya, dan cara mengambil/melempar; *Ditanya* = kalimat "Berapa peluang …".
+  Kalimat lain (mis. harga permen, hadiah tas) adalah pengecoh dan tidak ditandai.
+- **Tag struktur (F10, "Mirip dengan"):** `satu-hasil` (D-01, D-02, C-03), `syarat-bilangan` (D-03, D-04, C-02, L-01, L-03),
+  `kelompok-warna` (C-01, L-02), `komplemen` (C-04), `mustahil` (D-05), `pasti` (D-06), `dua-koin` (X-01).
+- Petunjuk L1–L2 disusun dari kata kunci tiap soal; L3 selalu memakai contoh soal *lain* dengan konteks sama (tabel §5 untuk bola).
+- **P = 0 atau P = 1:** pada langkah ⑤, 0/6 dan 6/6 diterima karena nilainya sudah bilangan bulat.
+- **Belum memenuhi target v1:** cerita pendek baru 4 (target ≥ 6), cerita panjang 3 (target ≥ 4), dan C-04 (`komplemen`) belum
+  punya pasangan di konteks lain. Tambahkan sebagai data di `problems.ts`; uji konten akan memeriksanya.
+
